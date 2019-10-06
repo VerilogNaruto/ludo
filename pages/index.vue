@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <div class="board"></div>
+    <div class="pion-container"></div>
   </div>
 </template>
 
@@ -11,10 +12,11 @@ import TweenMax from "gsap/TweenMax";
 import Draggable from "gsap/Draggable"; 
 
 class Pion{
-  constructor(){
+  constructor(color){
     this.div = document.createElement('div');
     this.div.classList.add('pion');
-    document.querySelector('.container').appendChild(this.div);
+    this.div.style.backgroundColor = `${color}`;
+    document.querySelector('.pion-container').appendChild(this.div);
     Draggable.create(".pion", {type:"x,y", edgeResistance:0.65, bounds:".container", throwProps:true});
   }
 }
@@ -184,7 +186,12 @@ export default {
   mounted() {
     const board = new Board(15, 15);
     board.createBoard();
-    new Pion();
+    for(let i=0; i<5; i++){
+      new Pion('yellow')
+      new Pion('blue')
+      new Pion('red')
+      new Pion('green')
+    }
   }
 };
 </script>
@@ -226,7 +233,6 @@ export default {
 .pion{
   width: 2rem;
   height: 2rem;
-  background: yellow;
   border-radius: 50%;
   border: 2px solid #333;
   cursor: grab !important;
