@@ -2,6 +2,9 @@
   <div class="container">
     <div class="board"></div>
     <div class="pion-container"></div>
+    <div class="dice-container">
+      <img class="dice" src="../assets/dice-1.png" alt="">
+    </div>
   </div>
 </template>
 
@@ -10,6 +13,21 @@ import Logo from "~/components/Logo.vue";
 import $ from "jquery";
 import TweenMax from "gsap/TweenMax";
 import Draggable from "gsap/Draggable"; 
+
+class Dice{
+  constructor(){
+    Draggable.create(".dice", {type:"x,y", edgeResistance:0.65, bounds:".container", throwProps:true});
+    document.querySelector('.dice').addEventListener('click', ()=>{
+      // 1. Random number
+        var dice = Math.floor(Math.random() * 6) + 1;
+
+        //2. Display the result
+        var diceDOM = document.querySelector('.dice');
+        diceDOM.src = require(`../assets/dice-${dice}.png`);
+        
+    })
+  }
+}
 
 class Pion{
   constructor(color){
@@ -186,6 +204,7 @@ export default {
   mounted() {
     const board = new Board(15, 15);
     board.createBoard();
+    new Dice();
     for(let i=0; i<5; i++){
       new Pion('yellow')
       new Pion('blue')
@@ -214,6 +233,7 @@ export default {
   display: grid;
   grid-template-columns: repeat(15, 2.5rem);
   grid-template-rows: repeat(15, 2.5rem);
+  // transform: scale(1.1);
 }
 .cell {
   background: #fff;
@@ -236,8 +256,21 @@ export default {
   border-radius: 50%;
   border: 2px solid #333;
   cursor: grab !important;
+  // transform: scale(1.1);
   &:active{
     cursor: grabbing !important;
   }
+  
 }
+  .dice-container{
+    img{
+      width: 6rem;
+        border: 2px solid #333;
+  cursor: grab !important;
+  // transform: scale(1.1);
+  &:active{
+    
+  }
+    }
+  }
 </style>
